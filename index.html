@@ -1,43 +1,506 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rohit Laheri | Cloud & DevOps Architect</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaOps Orchestrator Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+        html { font-family: 'Inter', sans-serif; }
+        
+        /* Fused Color Palette */
+        :root {
+            --electric-blue: #00B2FF;
+            --cyber-glow-blue: #60A5FA; /* A lighter, glowing blue */
+            --cyber-glow-purple: #A78BFA; /* A glowing purple */
+            --solar-ember-orange: #FF6F1F;
+            --brushed-titanium-gray: #A7A9AC;
+            --twilight-asphalt: #121212;
+            --infracrest-red: #D73535;
+            --sidebar-bg: #1a1a1a;
+            --card-bg: #1e1e1e;
+            --border-color: #2a2a2a;
+        }
+
+        body {
+            background-color: var(--twilight-asphalt);
+            color: var(--brushed-titanium-gray);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f1f1f; }
+        ::-webkit-scrollbar-thumb { background: #4a4a4a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6a6a6a; }
+        
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .sidebar { background-color: var(--sidebar-bg); border-color: var(--border-color); }
+        .header { background-color: var(--sidebar-bg); border-color: var(--border-color); }
+        .card-bg { background-color: var(--card-bg); }
+
+        .nav-item.active {
+            background-color: var(--solar-ember-orange) !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255, 111, 31, 0.4);
+        }
+        
+        .event-card { border-left: 4px solid; }
+        .event-card-critical { border-color: var(--infracrest-red); }
+        .event-card-warning { border-color: var(--solar-ember-orange); }
+        .event-card-info { border-color: var(--electric-blue); }
+
+        .subnav-btn, .event-toggle-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--brushed-titanium-gray);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .subnav-btn.active, .event-toggle-btn.active {
+            background-color: var(--solar-ember-orange);
+            color: white;
+            font-weight: 600;
+            border-color: var(--solar-ember-orange);
+        }
+        
+        .filter-input {
+            background-color: var(--twilight-asphalt);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--solar-ember-orange);
+            box-shadow: 0 0 0 2px rgba(255, 111, 31, 0.4);
+        }
+
+        /* Pipeline Visualization Styles */
+        .pipeline-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+        }
+        .pipeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .pipeline-node-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+        .pipeline-node-circle.source {
+            border-color: var(--cyber-glow-blue);
+            box-shadow: 0 0 15px var(--cyber-glow-blue);
+        }
+        .pipeline-node-circle.process {
+            border-color: var(--cyber-glow-purple);
+            box-shadow: 0 0 15px var(--cyber-glow-purple);
+        }
+        .pipeline-node-circle.output {
+            border-color: var(--solar-ember-orange);
+            box-shadow: 0 0 15px var(--solar-ember-orange);
+        }
+        .pipeline-connector {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyber-glow-blue), var(--cyber-glow-purple));
+            box-shadow: 0 0 10px var(--cyber-glow-purple);
+            z-index: -1;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>👋 Hi, I'm Rohit Laheri</h1>
-    <p>Cloud & DevOps Architect | 8.5+ Years of Scalable Impact</p>
-    <p><a href="https://www.linkedin.com/in/rohit-s-laheri/" target="_blank">LinkedIn</a> | <a href="https://rohitslaheri.medium.com/" target="_blank">Blog</a> | <a href="mailto:rohitshankar.laheri@techmahindra.com">Email</a></p>
-  </header>
+<body class="bg-black text-slate-300 font-sans antialiased">
 
-  <section>
-    <h2>🚀 My Journey</h2>
-    <ul class="timeline">
-      <li><strong>2016</strong>: Selected as an <em>Orbit Shifter</em> at Cognizant – top 200 of 7,000 engineers</li>
-      <li>Built a cloud enablement framework (PowerShell + ARM + Azure Functions)</li>
-      <li><strong>2018</strong>: Promoted to Cloud Engineer</li>
-      <li><strong>2019</strong>: Joined Brainscale, transitioned into DevOps</li>
-      <li>Led AzCop modernization → published on Azure Marketplace</li>
-      <li><strong>2020</strong>: Delivered 1st tech pitch → won $1M client deal</li>
-      <li><strong>2021</strong>: Mastered Terraform, Ansible, Jenkins, GitHub Actions</li>
-      <li><strong>2022</strong>: Deputed to US; Brainscale merged with Tech Mahindra</li>
-      <li><strong>2022–2025</strong>: Led Unified Pipeline Platform for US telecom giant → $3.5M revenue impact</li>
-      <li>Architected Lattice platform and contributed to GenAI-led business win</li>
-    </ul>
-  </section>
+    <div class="flex h-screen bg-black">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 p-4 flex-col hidden md:flex">
+            <div class="flex items-center mb-8 px-2">
+                <div class="w-10 h-10 flex items-center justify-center mr-2">
+                     <div class="w-8 h-1 rounded-full -rotate-12 absolute" style="background-color: var(--solar-ember-orange)"></div>
+                     <div class="w-8 h-1 rounded-full rotate-12 absolute" style="background-color: var(--electric-blue)"></div>
+                </div>
+                <h1 class="text-xl font-bold text-slate-200 tracking-wider">NovaOps</h1>
+            </div>
+            <nav>
+                <ul class="space-y-2" id="main-nav">
+                    <li><button data-page="events" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group active"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M4 11a9 9 0 0 1 9 9" /><path d="M4 4a16 16 0 0 1 16 16" /><circle cx="5" cy="19" r="1" /></svg><span class="ml-4">Events</span></button></li>
+                    <li><button data-page="dashboard" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group text-slate-300 hover:bg-slate-700/50"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="ml-4">Dashboard</span></button></li>
+                    <li><button data-page="rca" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group text-slate-300 hover:bg-slate-700/50"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path></svg><span class="ml-4">AI RCA</span></button></li>
+                    <li><button data-page="management" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group text-slate-300 hover:bg-slate-700/50"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M16 22h2a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h2"></path><path d="M12 7v10"></path><path d="M15 14l-3 3-3-3"></path></svg><span class="ml-4">Management</span></button></li>
+                    <li><button data-page="foundry" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group text-slate-300 hover:bg-slate-700/50"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.59a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg><span class="ml-4">Agent Foundry</span></button></li>
+                    <li><button data-page="config" class="nav-item w-full flex items-center p-3 text-base font-normal rounded-lg transition-all duration-200 group text-slate-300 hover:bg-slate-700/50"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg><span class="ml-4">Configuration</span></button></li>
+                </ul>
+            </nav>
+        </aside>
 
-  <section>
-    <h2>🧰 Tools & Certifications</h2>
-    <p><strong>Skills:</strong> Azure, AWS, Terraform, Jenkins, Kubernetes, GitHub Actions, Python, PowerShell</p>
-    <p><strong>Certifications:</strong> CKA, CKAD, Azure Admin Associate, MCSA</p>
-  </section>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="header border-b border-slate-800/50 p-4 flex items-center justify-between">
+                <h2 id="page-title" class="text-xl font-semibold text-white capitalize">Events</h2>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white" style="background-color: var(--solar-ember-orange);">R</div>
+            </header>
 
-  <footer>
-    <p>“Let’s build systems that don’t just scale—they lead.”</p>
-    <p>&copy; 2025 Rohit Laheri</p>
-  </footer>
+            <div id="page-container" class="flex-1 overflow-y-auto p-4 sm:p-6">
+                
+                <!-- EVENTS PANE -->
+                <div id="page-events" class="page active">
+                     <div class="flex items-center justify-between mb-6"><div><h1 class="text-2xl font-bold text-white">Events</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">View AI-synthesized events or raw alerts from your sources.</p></div><div id="event-view-toggle" class="flex items-center bg-black p-1 rounded-lg"><button data-view="proactive" class="event-toggle-btn active text-sm">AI Synthesized</button><button data-view="reactive" class="event-toggle-btn text-sm">Raw Alerts</button></div></div>
+                    <div id="proactive-events-view" class="event-view active"><div class="space-y-5"><div class="event-card event-card-critical card-bg p-5 rounded-lg" data-service="payment-gateway" data-time="Last 30m"><div class="flex justify-between items-start"><div><h3 class="font-bold text-lg" style="color: var(--infracrest-red)">Anomalous Latency Spike</h3><p style="color: var(--brushed-titanium-gray);" class="text-sm mt-1">Service: `payment-gateway` at 10:22 AM</p></div><span class="text-xs text-slate-500">Just now</span></div><div class="mt-3 space-y-2" style="color: var(--brushed-titanium-gray);"><p><strong class="font-semibold text-slate-200">AI Analysis:</strong> P99 latency increased by 300%.</p><p><strong class="font-semibold text-slate-200">Correlation:</strong> This correlates with deployment `v2.1.5` to `auth-service`.</p></div><div class="mt-4 flex gap-3"><button class="investigate-btn text-white text-sm font-semibold px-4 py-1.5 rounded-md" style="background-color: var(--solar-ember-orange);">Investigate in RCA</button></div></div></div></div>
+                    <div id="reactive-events-view" class="event-view hidden"><div class="card-bg p-6 rounded-lg"><div class="flex flex-wrap gap-4 mb-4"><input id="log-search-input" type="text" placeholder="Search logs..." class="filter-input flex-grow"><select id="log-severity-filter" class="filter-input"><option value="">All Severities</option><option value="critical">Critical</option><option value="warning">Warning</option><option value="info">Info</option></select><select id="log-source-filter" class="filter-input"><option value="">All Sources</option><option value="Prometheus">Prometheus</option><option value="GitLab">GitLab</option><option value="DataDog">DataDog</option></select><input type="text" placeholder="Time range (e.g., Last 1h)" class="filter-input"></div><div class="overflow-x-auto"><table class="w-full text-sm text-left text-slate-300"><thead class="text-xs text-slate-400 uppercase bg-black/50"><tr><th class="px-6 py-3">Severity</th><th class="px-6 py-3">Source</th><th class="px-6 py-3">Service</th><th class="px-6 py-3">Message</th><th class="px-6 py-3">Time</th></tr></thead><tbody id="raw-logs-table-body"></tbody></table></div></div></div>
+                </div>
+
+                 <!-- DASHBOARD PANE -->
+                 <div id="page-dashboard" class="page">
+                    <div class="flex items-center justify-between mb-6"><div><h1 class="text-2xl font-bold text-white">Dashboard</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Your operational command center. Create custom views with AI.</p></div><button id="create-dashboard-btn" class="text-white font-semibold px-5 py-2.5 rounded-lg flex items-center gap-2" style="background-color: var(--solar-ember-orange);"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>Create Dashboard with AI</button></div>
+                    <div id="dashboard-content" class="space-y-6"><div class="text-center py-16 card-bg/50 rounded-lg"><h3 class="text-lg font-semibold text-slate-300">No dashboards created yet.</h3><p class="text-slate-500 mt-1">Use the button above to create your first dashboard.</p></div></div>
+                 </div>
+                 
+                 <!-- RCA PANE -->
+                 <div id="page-rca" class="page">
+                    <h1 class="text-2xl font-bold text-white">AI Root Cause Analysis</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Focus your investigation to get faster, more accurate results.</p><div class="mt-6 card-bg p-6 rounded-lg"><div class="space-y-4"><div><label for="rca-target" class="block text-sm font-medium text-slate-300 mb-1">Investigation Scope</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><select id="rca-target" class="filter-input"><option value="">Select a target service...</option><option value="payment-gateway">payment-gateway</option><option value="auth-service">auth-service</option><option value="user-database">user-database</option></select><input id="rca-time-range" type="text" placeholder="Time range (e.g., Last 30m)" class="filter-input"></div></div><div><label class="block text-sm font-medium text-slate-300 mb-2">Symptom Keywords (Optional)</label><div class="flex flex-wrap gap-2"><button class="bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-full">High Latency</button><button class="bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-full">Error Spike</button></div></div><div><label for="rca-prompt" class="block text-sm font-medium text-slate-300 mb-1">Describe the problem</label><div class="flex gap-4"><input id="rca-prompt" type="text" placeholder="e.g., 'Check for bad deployments or resource saturation.'" class="flex-grow filter-input"><button class="text-white font-semibold px-5 py-2.5 rounded-lg" style="background-color: var(--solar-ember-orange);">Analyze</button></div></div></div></div>
+                    <div id="rca-results" class="mt-6 space-y-6 card-bg p-6 rounded-lg"><h3 class="font-semibold mb-2" style="color: var(--solar-ember-orange);">Analysis Results</h3><p style="color: var(--brushed-titanium-gray);">Run an analysis to see results.</p></div>
+                 </div>
+                 
+                 <!-- CONFIGURATION PANE -->
+                 <div id="page-config" class="page">
+                    <div class="flex items-center justify-between mb-6"><div><h1 class="text-2xl font-bold text-white">Metrics & KPI Configuration</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Define metrics to monitor.</p></div><button class="text-white font-semibold px-5 py-2.5 rounded-lg" style="background-color: var(--solar-ember-orange);">Add Metric</button></div>
+                 </div>
+
+
+                <!-- MANAGEMENT PANE -->
+                <div id="page-management" class="page">
+                     <div class="border-b border-slate-700 mb-6">
+                        <nav id="management-subnav" class="-mb-px flex space-x-6" aria-label="Tabs">
+                            <button data-subpage="connector-hub-view" class="subnav-btn active whitespace-nowrap py-3 px-1 font-medium text-sm">Connector Hub</button>
+                            <button data-subpage="discovery-results-view" class="subnav-btn whitespace-nowrap py-3 px-1 font-medium text-sm hidden">Discovered Resources</button>
+                            <button data-subpage="asset-inventory-view" class="subnav-btn whitespace-nowrap py-3 px-1 font-medium text-sm">Asset Inventory</button>
+                            <button data-subpage="agent-inventory-view" class="subnav-btn whitespace-nowrap py-3 px-1 font-medium text-sm">Agent Inventory</button>
+                            <button data-subpage="pipeline-health-view" class="subnav-btn whitespace-nowrap py-3 px-1 font-medium text-sm">Pipeline Health</button>
+                        </nav>
+                    </div>
+
+                    <div id="connector-hub-view" class="active-subpage">
+                        <h1 class="text-2xl font-bold text-white">Connector Hub</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Connect your cloud providers and services.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                            <div data-source="Azure" class="connector-card connect-btn cursor-pointer card-bg p-6 rounded-lg flex items-center gap-5 transition-all duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 128 128"><path fill="#0078d4" d="M74.95 56.88L48.26 31.34l-20.91 21.1v50.31h20.91V59.41l17.8-18.36l26.69 25.83V31.34z"/><path fill="#0078d4" d="M74.95 56.88L48.26 82.42v-51.08l-20.91 21.1v50.31h20.91V59.41l17.8-18.36l26.69 25.83V31.34z"/></svg><div><h3 class="font-bold text-lg text-white">Azure</h3><p class="text-sm" style="color: var(--brushed-titanium-gray);">Cloud & DevOps.</p></div></div>
+                            <div data-source="GitLab" class="connector-card connect-btn cursor-pointer card-bg p-6 rounded-lg flex items-center gap-5 transition-all duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256"><path fill="#FC6D26" d="m255.8 150.3l-31-95.2c-2.1-6.5-7.9-10.9-14.7-10.9H45.8c-6.8 0-12.6 4.4-14.7 10.9l-31 95.2c-1.3 4.1.2 8.6 3.4 11.2l120.5 91.3c2.9 2.2 6.8 2.2 9.7 0l120.5-91.3c3.2-2.6 4.7-7.1 3.4-11.2Z"/><path fill="#E24329" d="m128 252.8l-45.2-134.6h90.4L128 252.8z"/><path fill="#FCA326" d="m128 252.8l-45.2-134.6h-37L128 252.8zm0 0l45.2-134.6h37L128 252.8z"/></svg><div><h3 class="font-bold text-lg text-white">GitLab</h3><p class="text-sm" style="color: var(--brushed-titanium-gray);">CI/CD & Source Code.</p></div></div>
+                        </div>
+                    </div>
+                    
+                    <div id="discovery-results-view" class="hidden active-subpage">
+                        <h1 class="text-2xl font-bold text-white">Discovered Resources</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Select resources to onboard for monitoring.</p>
+                        <div class="mt-6 space-y-3">
+                             <div class="card-bg p-4 rounded-lg flex items-center justify-between"><p class="font-medium text-white">AKS Cluster: prod-cluster-eastus</p><button class="onboard-btn text-white text-sm font-semibold px-4 py-1.5 rounded-md" style="background-color: var(--solar-ember-orange);">Onboard</button></div>
+                        </div>
+                    </div>
+
+                    <div id="asset-inventory-view" class="hidden active-subpage">
+                        <h1 class="text-2xl font-bold text-white">Asset Inventory</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">A list of all onboarded and monitored resources.</p>
+                        <div id="onboarded-assets-list" class="mt-6 space-y-4">
+                           <div class="asset-card card-bg p-5 rounded-lg border-2 border-green-500 flex items-center justify-between"><p class="font-semibold text-white">AKS Cluster: prod-cluster-eastus</p><span class="text-sm text-green-400">Monitoring Active</span></div>
+                           <div class="asset-card card-bg p-5 rounded-lg border-2 border-green-500 flex items-center justify-between"><p class="font-semibold text-white">SQL Database: user-db-prod</p><span class="text-sm text-green-400">Monitoring Active</span></div>
+                        </div>
+                    </div>
+
+                    <div id="agent-inventory-view" class="hidden active-subpage">
+                         <h1 class="text-2xl font-bold text-white">Agent Inventory</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">All available agents registered in the orchestrator.</p>
+                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                            <div class="agent-card card-bg p-5 rounded-lg transition-all duration-300"><div class="flex items-center justify-between"><h3 class="font-bold text-lg text-white">gitlab-get-merge-request</h3><span class="text-xs font-semibold px-2 py-1 bg-teal-500/20 text-teal-300 rounded-full">Pre-built</span></div><p class="text-sm mt-2" style="color: var(--brushed-titanium-gray);">Retrieves GitLab merge request status.</p><div class="mt-4 flex items-center gap-2 text-sm text-green-400"><div class="h-2.5 w-2.5 bg-green-500 rounded-full"></div>Healthy</div></div>
+                            <div class="agent-card card-bg p-5 rounded-lg transition-all duration-300"><div class="flex items-center justify-between"><h3 class="font-bold text-lg text-white">azure-run-rca</h3><span class="text-xs font-semibold px-2 py-1 bg-teal-500/20 text-teal-300 rounded-full">Pre-built</span></div><p class="text-sm mt-2" style="color: var(--brushed-titanium-gray);">Performs RCA on Azure services.</p><div class="mt-4 flex items-center gap-2 text-sm text-green-400"><div class="h-2.5 w-2.5 bg-green-500 rounded-full"></div>Healthy</div></div>
+                            <div class="agent-card card-bg p-5 rounded-lg transition-all duration-300"><div class="flex items-center justify-between"><h3 class="font-bold text-lg text-white">get-hardware-by-email</h3><span class="text-xs font-semibold px-2 py-1" style="background-color: rgba(0, 178, 255, 0.1); color: var(--electric-blue);">Custom</span></div><p class="text-sm mt-2" style="color: var(--brushed-titanium-gray);">Finds hardware from Workday.</p><div class="mt-4 flex items-center gap-2 text-sm text-red-400"><div class="h-2.5 w-2.5 bg-red-500 rounded-full"></div>Unhealthy</div></div>
+                         </div>
+                    </div>
+                    
+                    <div id="pipeline-health-view" class="hidden active-subpage">
+                        <h1 class="text-2xl font-bold text-white">Pipeline Status</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Monitor the health and performance of your data pipelines.</p>
+                        <div class="mt-6 card-bg p-6 rounded-lg">
+                            <div class="pipeline-container relative">
+                                <div class="pipeline-node flex flex-col items-center">
+                                    <div class="pipeline-node-circle source">Logs</div>
+                                    <div class="pipeline-node-circle source mt-4">Metrics</div>
+                                </div>
+                                <div class="pipeline-node flex flex-col items-center justify-center h-48">
+                                    <div class="pipeline-node-circle process">Parse</div>
+                                    <div class="pipeline-connector" style="width: 4rem; left: -4rem; top: 25%;"></div>
+                                    <div class="pipeline-connector" style="width: 4rem; left: -4rem; bottom: 25%;"></div>
+                                     <div class="pipeline-connector" style="width: 4rem; right: -4rem;"></div>
+                                </div>
+                                <div class="pipeline-node">
+                                    <div class="card-bg border border-slate-700/50 p-4 rounded-lg text-left">
+                                        <h4 class="font-bold text-white">Parse Details</h4>
+                                        <p class="text-sm mt-2">Throughput: <span class="text-white">24.1 MB/s</span></p>
+                                        <p class="text-sm">Latency: <span class="text-white">35 ms</span></p>
+                                        <div class="mt-4">
+                                            <h5 class="text-sm font-semibold text-white">Top Logs:</h5>
+                                            <ul class="text-xs list-disc list-inside mt-1 space-y-1">
+                                                <li style="color: var(--infracrest-red)">Error: Unable to parse input</li>
+                                                <li class="text-green-400">Info: Parsing complete</li>
+                                                <li style="color: var(--solar-ember-orange)">Warning: Deprecated format used</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="pipeline-connector" style="width: 4rem; right: -4rem;"></div>
+                                </div>
+                                 <div class="pipeline-node">
+                                    <div class="pipeline-node-circle output">Output</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOUNDRY PANE -->
+                <div id="page-foundry" class="page">
+                    <h1 class="text-2xl font-bold text-white">Agent Foundry</h1><p style="color: var(--brushed-titanium-gray);" class="mt-2">Create a new agent by describing what it should do.</p><div class="mt-6 card-bg p-6 rounded-lg"><textarea class="w-full bg-black border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400" rows="4" placeholder="e.g., 'An agent that takes an email...'"></textarea><button class="mt-4 text-white font-semibold px-5 py-2.5 rounded-lg" style="background-color: var(--solar-ember-orange);">Blueprint Agent</button></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- AI Dashboard Creation Modal -->
+    <div id="ai-dashboard-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl w-full max-w-lg">
+            <div class="flex items-center justify-between p-4 border-b border-slate-800"><h2 class="text-lg font-semibold text-white">Create Dashboard with AI</h2><button id="close-dashboard-modal" class="text-slate-400 hover:text-white">&times;</button></div>
+            <div class="p-6">
+                <p class="text-slate-400 mb-4">Describe the dashboard you want to create.</p>
+                <textarea id="dashboard-prompt" class="w-full filter-input" rows="3" placeholder="e.g., 'Create a dashboard for my payment-gateway service...'"></textarea>
+                <div class="flex justify-end mt-4">
+                    <button id="submit-dashboard-prompt" class="text-white font-semibold px-5 py-2.5 rounded-lg" style="background-color: var(--solar-ember-orange);">Generate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Connection Modal -->
+    <div id="connection-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl w-full max-w-md text-center p-8"><div id="modal-connecting"><h2 id="modal-title" class="text-xl font-semibold text-white">Connecting...</h2><p class="text-slate-400 mt-2">Please follow auth steps.</p><div class="mt-6 w-16 h-16 border-4 border-t-transparent rounded-full animate-spin" style="border-color: var(--solar-ember-orange); border-top-color: transparent;"></div></div><div id="modal-discovering" class="hidden"><h2 class="text-xl font-semibold text-white">Discovery in Progress</h2><p class="text-slate-400 mt-2">AI is analyzing resources...</p><div class="mt-6 w-16 h-16 border-4 border-t-transparent rounded-full animate-spin" style="border-color: var(--solar-ember-orange); border-top-color: transparent;"></div></div></div>
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const nav = document.getElementById('main-nav');
+        const pages = document.getElementById('page-container').querySelectorAll('.page');
+        const pageTitle = document.getElementById('page-title');
+
+        // Main navigation logic
+        nav.addEventListener('click', (e) => {
+            const navButton = e.target.closest('.nav-item');
+            if (!navButton) return;
+            const pageId = navButton.dataset.page;
+            
+            nav.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                item.style.backgroundColor = '';
+                item.style.color = 'var(--brushed-titanium-gray)';
+                const svg = item.querySelector('svg');
+                if (svg) {
+                    svg.classList.add('text-slate-400', 'group-hover:text-white');
+                    svg.classList.remove('text-white');
+                }
+            });
+            navButton.classList.add('active');
+            
+            const svg = navButton.querySelector('svg');
+             if (svg) {
+                svg.classList.remove('text-slate-400');
+                svg.classList.add('text-white');
+            }
+
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${pageId}`)?.classList.add('active');
+            pageTitle.textContent = pageId.replace(/-/g, ' ');
+        });
+
+        // Management Pane Sub-navigation
+        const mgmtSubNav = document.getElementById('management-subnav');
+        if (mgmtSubNav) {
+            const mgmtSubPages = document.getElementById('page-management').querySelectorAll('.active-subpage');
+            mgmtSubNav.addEventListener('click', (e) => {
+                const subNavButton = e.target.closest('.subnav-btn');
+                if (!subNavButton) return;
+                mgmtSubNav.querySelectorAll('.subnav-btn').forEach(btn => btn.classList.remove('active'));
+                subNavButton.classList.add('active');
+                const subPageId = subNavButton.dataset.subpage;
+                mgmtSubPages.forEach(p => p.classList.add('hidden'));
+                document.getElementById(subPageId)?.classList.remove('hidden');
+            });
+        }
+        
+        // Connection & Onboarding Flow
+        const connectionModal = document.getElementById('connection-modal');
+        document.querySelectorAll('.connect-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('modal-title').textContent = `Connecting to ${btn.dataset.source}...`;
+                connectionModal.style.display = 'flex';
+                document.getElementById('modal-connecting').style.display = 'block';
+                document.getElementById('modal-discovering').style.display = 'none';
+
+                setTimeout(() => {
+                    document.getElementById('modal-connecting').style.display = 'none';
+                    document.getElementById('modal-discovering').style.display = 'block';
+                }, 1500);
+
+                setTimeout(() => {
+                    connectionModal.style.display = 'none';
+                    const discoveryTab = mgmtSubNav.querySelector('[data-subpage="discovery-results-view"]');
+                    discoveryTab.classList.remove('hidden');
+                    discoveryTab.click();
+                }, 3000);
+            });
+        });
+        
+        document.getElementById('discovery-results-view')?.addEventListener('click', (e) => {
+            const onboardBtn = e.target.closest('.onboard-btn');
+            if(!onboardBtn || onboardBtn.disabled) return;
+            
+            const resourceName = onboardBtn.previousElementSibling.textContent;
+            onboardBtn.textContent = 'Onboarding...';
+            onboardBtn.disabled = true;
+
+            setTimeout(() => {
+                onboardBtn.textContent = 'Monitored';
+                onboardBtn.style.backgroundColor = '#16a34a'; // Green
+                onboardBtn.style.cursor = 'not-allowed';
+
+                const assetList = document.getElementById('onboarded-assets-list');
+                if(assetList.querySelector('p')) {
+                    assetList.innerHTML = '';
+                }
+                const newAsset = document.createElement('div');
+                newAsset.className = 'asset-card card-bg p-5 rounded-lg border-2 border-green-500 flex items-center justify-between';
+                newAsset.innerHTML = `<p class="font-semibold text-white">${resourceName}</p><span class="text-sm text-green-400">Monitoring Active</span>`;
+                assetList.appendChild(newAsset);
+
+            }, 1500);
+        });
+
+        // Event View Toggle
+        const eventToggle = document.getElementById('event-view-toggle');
+        if(eventToggle) {
+             const eventViews = document.getElementById('page-events').querySelectorAll('.event-view');
+            eventToggle.addEventListener('click', (e) => {
+                const toggleButton = e.target.closest('.event-toggle-btn');
+                if (!toggleButton) return;
+                
+                eventToggle.querySelectorAll('.event-toggle-btn').forEach(btn => btn.classList.remove('active'));
+                toggleButton.classList.add('active');
+
+                const viewId = toggleButton.dataset.view;
+                eventViews.forEach(v => v.classList.add('hidden'));
+                document.getElementById(`${viewId}-events-view`)?.classList.remove('hidden');
+            });
+        }
+        
+        // Raw Log Filtering Logic
+        const allLogs = [
+            { severity: 'critical', source: 'Prometheus', service: 'payment-gateway', message: 'HighLatencyAlarm', time: '10:22 AM' },
+            { severity: 'info', source: 'GitLab', service: 'auth-service', message: 'Pipeline #123 succeeded', time: '10:18 AM' },
+        ];
+        function renderLogs(logs) {
+            const logsTableBody = document.getElementById('raw-logs-table-body');
+            if(!logsTableBody) return;
+            logsTableBody.innerHTML = '';
+            if (logs.length === 0) {
+                 logsTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-slate-500">No logs found.</td></tr>`;
+                return;
+            }
+            logs.forEach(log => {
+                 const severityClass = { critical: 'bg-red-500/20 text-red-300', warning: 'bg-amber-500/20 text-amber-300', info: 'bg-sky-500/20 text-sky-300'}[log.severity] || 'bg-slate-500/20 text-slate-300';
+                 const row = `<tr class="border-b border-slate-800"><td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-semibold ${severityClass}">${log.severity}</span></td><td class="px-6 py-4 font-mono">${log.source}</td><td class="px-6 py-4 font-mono">${log.service}</td><td class="px-6 py-4">${log.message}</td><td class="px-6 py-4">${log.time}</td></tr>`;
+                logsTableBody.innerHTML += row;
+            });
+        }
+        function filterLogs() {
+            const searchInput = document.getElementById('log-search-input');
+            const severityFilter = document.getElementById('log-severity-filter');
+            const sourceFilter = document.getElementById('log-source-filter');
+            if(!searchInput) return;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const severity = severityFilter.value;
+            const source = sourceFilter.value;
+
+            const filteredLogs = allLogs.filter(log => {
+                const matchesSearch = log.message.toLowerCase().includes(searchTerm) || log.service.toLowerCase().includes(searchTerm);
+                const matchesSeverity = !severity || log.severity === severity;
+                const matchesSource = !source || log.source === source;
+                return matchesSearch && matchesSeverity && matchesSource;
+            });
+            renderLogs(filteredLogs);
+        }
+        document.getElementById('log-search-input')?.addEventListener('input', filterLogs);
+        document.getElementById('log-severity-filter')?.addEventListener('change', filterLogs);
+        document.getElementById('log-source-filter')?.addEventListener('change', filterLogs);
+        renderLogs(allLogs);
+        
+        // Investigate Button Workflow
+        document.getElementById('proactive-events-view')?.addEventListener('click', (e) => {
+            const investigateBtn = e.target.closest('.investigate-btn');
+            if (!investigateBtn) return;
+            const eventCard = investigateBtn.closest('.event-card');
+            document.getElementById('rca-target').value = eventCard.dataset.service;
+            document.getElementById('rca-time-range').value = eventCard.dataset.time;
+            document.querySelector('.nav-item[data-page="rca"]').click();
+        });
+
+        // AI Dashboard Creation Flow
+        const dashboardModal = document.getElementById('ai-dashboard-modal');
+        const createDashboardBtn = document.getElementById('create-dashboard-btn');
+        const closeDashboardModalBtn = document.getElementById('close-dashboard-modal');
+        const submitDashboardBtn = document.getElementById('submit-dashboard-prompt');
+        const dashboardContent = document.getElementById('dashboard-content');
+
+        createDashboardBtn?.addEventListener('click', () => dashboardModal.style.display = 'flex');
+        closeDashboardModalBtn?.addEventListener('click', () => dashboardModal.style.display = 'none');
+        
+        submitDashboardBtn?.addEventListener('click', () => {
+            const prompt = document.getElementById('dashboard-prompt').value;
+            if (!prompt) return;
+
+            if(dashboardContent.querySelector('.text-center')) {
+                dashboardContent.innerHTML = '';
+            }
+            
+            const newDashboardHTML = `
+                <div class="space-y-6 mt-4 border border-slate-700/50 p-4 rounded-lg">
+                    <h2 class="text-xl font-bold text-white">Payment Gateway Overview</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="kpi-card p-5 rounded-lg"><h4 class="text-sm text-slate-400">P99 Latency</h4><p class="text-3xl font-bold text-white mt-2">210ms</p></div>
+                        <div class="kpi-card p-5 rounded-lg"><h4 class="text-sm text-slate-400">Transaction Errors</h4><p class="text-3xl font-bold text-white mt-2">1.2%</p></div>
+                        <div class="kpi-card p-5 rounded-lg"><h4 class="text-sm text-slate-400">Throughput</h4><p class="text-3xl font-bold text-white mt-2">500 req/min</p></div>
+                        <div class="kpi-card p-5 rounded-lg"><h4 class="text-sm text-slate-400">API Calls</h4><p class="text-3xl font-bold text-white mt-2">30k</p></div>
+                    </div>
+                </div>
+            `;
+            const dashboardFragment = document.createRange().createContextualFragment(newDashboardHTML);
+            dashboardContent.appendChild(dashboardFragment);
+            
+            dashboardModal.style.display = 'none';
+            document.getElementById('dashboard-prompt').value = '';
+        });
+
+        // Set initial page
+        document.querySelector('.nav-item[data-page="events"]').click();
+    });
+</script>
+
 </body>
 </html>
